@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/yourusername/yourrepo/main/VR_Director_logo.png" width="250" alt="VR Director Logo"/>
+</p>
+
 # VR-Scene-Director
 
 VR Director turns short story snippets into VR scene direction - showing where the viewer should stand, how lighting behaves, and what emotion drives the moment.
