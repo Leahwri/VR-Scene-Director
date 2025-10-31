@@ -39,6 +39,9 @@ The tool was refined about seven times, focusing on clarity, lighting realism, a
 A short behind-the-scenes video and development visuals are available here:
 🎥 https://youtube.com/shorts/6GfBd1vMoio?feature=share
 
+Website blog 
+https://www.virtualeah.com/all
+
 📁 Repository Contents
 
 /demo — Example scene setup
