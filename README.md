@@ -33,7 +33,7 @@ VR Director evolved through several visual tests and prototypes - from Unity-bas
 The tool was refined about seven times, focusing on clarity, lighting realism, and viewer placement accuracy.
 
 A short behind-the-scenes video and development visuals are available here:
-🎥 [Add your Canva video link or YouTube link here]
+🎥 https://youtube.com/shorts/6GfBd1vMoio?feature=share
 
 📁 Repository Contents
 
