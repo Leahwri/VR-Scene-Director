@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yourusername/yourrepo/main/VR_Director_logo.png" width="250" alt="VR Director Logo"/>
+  <img src="ChatGPT Image Oct 30, 2025, 07_36_58 PM.png" width="250" alt="VR Director Logo"/>
 </p>
 
 # VR-Scene-Director
