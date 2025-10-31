@@ -57,6 +57,7 @@ Expand for VR filmmaking integration.
 
 Support dynamic scene diagrams.
 
-
+DevPost project link:
+https://devpost.com/submit-to/25987-google-chrome-built-in-ai-challenge-2025/manage/submissions/806884-vr-scene-director/additional-info/edit
 
 
