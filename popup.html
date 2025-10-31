@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>VR Scene Director</title>
+  <style>
+    :root{
+      --bg:#fff; --muted:#666; --border:#e6e6e6; --chip:#f5f5f5; --brand:#2563eb;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; padding:12px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      width: 380px; background:var(--bg); color:#111;
+    }
+    h3{margin:0 0 8px 0}
+    textarea{
+      width:100%; height:96px; padding:8px; resize:vertical;
+      border:1px solid var(--border); border-radius:8px;
+      line-height:1.35;
+    }
+    .row{display:flex; gap:8px; margin-top:8px; flex-wrap:wrap}
+    button{
+      padding:6px 10px; border:1px solid var(--border); border-radius:8px;
+      background:#fff; cursor:pointer;
+    }
+    button.primary{background:var(--brand); color:#fff; border-color:var(--brand)}
+    .badge{
+      display:inline-flex; align-items:center; gap:6px;
+      padding:2px 8px; border-radius:999px; background:var(--chip);
+      font-size:12px; margin:8px 0 6px 0;
+    }
+    .cards{display:grid; gap:8px; margin-top:4px}
+    .card{
+      border:1px solid var(--border); border-radius:8px; padding:8px;
+    }
+    .label{font-weight:700; margin-bottom:4px}
+    .muted{color:var(--muted); font-size:12px}
+    .grid{
+      display:grid; grid-template-columns: 1fr auto; align-items:center; gap:6px 10px;
+    }
+    .range{width:100%}
+    .right{min-width:54px; text-align:right; color:#333; font-variant-numeric:tabular-nums}
+    #camPreview{margin-top:6px; font-size:12px; color:#333}
+
+    /* History */
+    .section-title{margin:10px 0 6px; font-weight:800}
+    .pill{display:inline-block; padding:2px 8px; border-radius:999px; background:var(--chip); font-size:12px}
+    .list{
+      border:1px solid var(--border); border-radius:8px;
+      padding:8px; max-height:240px; overflow:auto; background:#fff;
+    }
+    .item{
+      display:flex; gap:8px; align-items:flex-start;
+      padding:8px; border-bottom:1px solid #f0f0f0;
+    }
+    .item:last-child{border-bottom:none}
+    .star{
+      background:none; border:none; font-size:18px; line-height:1; padding:0 2px; cursor:pointer;
+      color:#e0b200;
+    }
+    .meta{
+      margin-left:auto; display:flex; align-items:center; gap:6px; flex:0 0 auto; color:var(--muted); font-size:12px;
+    }
+    .text{
+      flex:1 1 auto; min-width:0;
+      /* Make sure long text wraps nicely and NEVER falls into one char per line */
+      white-space:normal; overflow-wrap:anywhere; word-break:break-word; line-height:1.35;
+    }
+    .btns{display:flex; gap:6px; flex-wrap:wrap}
+    .toolbar{display:flex; gap:8px; align-items:center; margin:6px 0}
+    .split-title{margin-top:10px}
+  </style>
+</head>
+<body>
+  <h3>VR Scene Director</h3>
+
+  <textarea id="storyInput" placeholder="Enter your story snippet here..."></textarea>
+
+  <div class="row">
+    <button id="analyseBtn" class="primary">Analyse Scene</button>
+    <button id="clearBtn">Clear</button>
+    <button id="copyBtn">Copy Guidance</button>
+    <button id="voiceBtn">🔈 Voice</button>
+  </div>
+
+  <div id="toneBadge" class="badge" style="display:none;"></div>
+
+  <div id="guidance" class="cards" style="display:none;">
+    <div class="card">
+      <div class="label">Viewer Position</div>
+      <div id="viewerPos"></div>
+    </div>
+    <div class="card">
+      <div class="label">Environment/Layout</div>
+      <div id="envLayout"></div>
+    </div>
+    <div class="card">
+      <div class="label">Lighting</div>
+      <div id="lighting"></div>
+    </div>
+    <div class="card">
+      <div class="label">Emotional Beat</div>
+      <div id="emotional"></div>
+    </div>
+  </div>
+
+  <div class="section-title">Camera</div>
+  <div class="card">
+    <div class="grid">
+      <div>Distance (m)</div><div class="right"><span id="distVal">2.0</span></div>
+      <input id="dist" class="range" type="range" min="0.5" max="5" step="0.1" value="2.0" />
+      <div>Height (m)</div><div class="right"><span id="heightVal">1.6</span></div>
+      <input id="height" class="range" type="range" min="0.8" max="2" step="0.05" value="1.6" />
+      <div>Orbit (°)</div><div class="right"><span id="orbitVal">0</span></div>
+      <input id="orbit" class="range" type="range" min="-90" max="90" step="1" value="0" />
+      <div>FOV (°)</div><div class="right"><span id="fovVal">60</span></div>
+      <input id="fov" class="range" type="range" min="35" max="100" step="1" value="60" />
+    </div>
+    <div id="camPreview">Camera: 2.0 m away, height 1.6 m, orbit 0°, FOV 60°.</div>
+    <div class="row" style="margin-top:6px;">
+      <button id="copyCamBtn">Copy Camera</button>
+    </div>
+  </div>
+
+  <div class="section-title">History</div>
+  <div class="row">
+    <button id="toggleHistoryBtn">Show / Hide History</button>
+    <button id="clearHistoryBtn">Clear History</button>
+    <button id="downloadBtn">Download Log (.txt)</button>
+    <label style="margin-left:auto; font-size:12px; display:flex; align-items:center; gap:6px;">
+      <input id="onlyFav" type="checkbox" /> Favourites only
+    </label>
+  </div>
+
+  <div id="historyWrap" style="display:block">
+    <div class="split-title"><span class="pill">⭐ Favourites</span></div>
+    <div id="favList" class="list" style="margin-top:6px;"></div>
+
+    <div class="toolbar">
+      <button id="copyAllFavs">Copy all favourites</button>
+      <button id="copyVisible">Copy visible history</button>
+    </div>
+
+    <div class="split-title"><span class="pill">Recent</span></div>
+    <div id="historyList" class="list" style="margin-top:6px;"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

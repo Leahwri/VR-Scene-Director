@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>VR Scene Director — Shared Guidance</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --bg:#ffffff;
+      --fg:#101317;
+      --muted:#6b7280;
+      --line:#e9eef5;
+      --card:#ffffff;
+      --chip:#f2f6ff;
+      --brand:#2f6cfb;
+      --brand-2:#3b82f6;
+      --accent:#0ea5e9;
+      --ok:#16a34a;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);
+      font:14px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";}
+    .wrap{max-width:960px;margin:28px auto;padding:0 16px}
+    header{margin-bottom:14px}
+    h1{font-size:22px;margin:0 0 6px}
+    .sub{color:var(--muted);margin:0 0 18px}
+    .row{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+    button{border:1px solid var(--line);background:#fff;color:var(--fg);
+      border-radius:10px;padding:8px 12px;cursor:pointer;transition:all .15s}
+    button:hover{transform:translateY(-1px)}
+    .primary{background:var(--brand);border-color:var(--brand);color:#fff}
+    .card{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:14px 16px;margin:0 0 14px}
+    .ttl{font-weight:700;margin:0 0 8px}
+    .pair{display:grid;grid-template-columns:160px 1fr;gap:10px 18px}
+    .k{color:var(--muted)}
+    .chip{display:inline-block;background:var(--chip);padding:2px 10px;border-radius:999px;font-size:12px}
+    .muted{color:var(--muted)}
+    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+    pre{background:#0b1022;color:#cae0ff;border-radius:12px;padding:14px;overflow:auto}
+    .twocol{display:grid;grid-template-columns:1fr 380px;gap:16px}
+    @media (max-width:980px){.twocol{grid-template-columns:1fr}}
+    .legend{color:var(--muted);font-size:12px}
+    svg{max-width:100%;height:auto;border:1px solid var(--line);border-radius:12px;background:#f9fbff}
+    .list{margin:8px 0 0 18px}
+    .list li{margin:4px 0}
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#eef4ff;color:#2b59f7;font-size:12px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>VR Scene Director — Shared Guidance</h1>
+      <p class="sub">Quick, plain-English direction from the browser extension.</p>
+      <div class="row">
+        <button id="copyJson" class="primary">Copy JSON</button>
+        <button id="copyMd">Copy Markdown</button>
+      </div>
+    </header>
+
+    <div id="err" class="card" style="display:none">
+      <div class="ttl">Invalid or missing data</div>
+      <div>Please make a new link from the popup and try again.</div>
+    </div>
+
+    <div id="ok" style="display:none">
+      <div class="card">
+        <div class="ttl">Story Snippet</div>
+        <div id="snippet"></div>
+      </div>
+
+      <div class="twocol">
+        <section>
+          <div class="card">
+            <div class="ttl">Guidance</div>
+            <div class="pair">
+              <div class="k">Tone</div><div><span id="tone" class="chip"></span></div>
+              <div class="k">Viewer Position</div><div id="viewer"></div>
+              <div class="k">Environment / Layout</div><div id="env"></div>
+              <div class="k">Lighting</div><div id="light"></div>
+              <div class="k">Emotional Beat</div><div id="beat"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="ttl">What this means</div>
+            <ul class="list" id="whyList"></ul>
+            <div style="height:6px"></div>
+            <span class="pill">Try this</span>
+            <ul class="list" id="doList" style="margin-top:6px"></ul>
+          </div>
+
+          <div class="card">
+            <div class="ttl">Raw JSON</div>
+            <pre id="raw"></pre>
+          </div>
+        </section>
+
+        <aside>
+          <div class="card">
+            <div class="ttl">Camera</div>
+            <div id="camLine" class="mono"></div>
+            <div class="muted" id="camExplain" style="margin-top:6px"></div>
+          </div>
+
+          <div class="card">
+            <div class="ttl">Quick Diagram</div>
+            <svg id="viz" viewBox="0 0 360 260" width="360" height="260" aria-label="Camera sketch"></svg>
+            <div class="legend" style="margin-top:8px">
+              <div>● Center = viewer</div>
+              <div>Blue slice = “front” area (≈120°)</div>
+              <div>Orange line = orbit (where you’re turned)</div>
+              <div>Dashed circle = subject distance (scaled)</div>
+              <div>Pale wedge = FOV (lens width hint)</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script src="share.js"></script>
+</body>
+</html>

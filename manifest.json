@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "VR Scene Director",
+  "version": "1.0",
+  "description": "Turn stories into VR scene guidance.",
+  "action": {
+    "default_title": "VR Scene Director",
+    "default_popup": "popup.html"
+  },
+  "permissions": ["storage", "tabs", "tts"],
+  "host_permissions": []
+}
